@@ -124,6 +124,22 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Classes\Class.cs" />
+    <Compile Include="Models\Classes\ClassWithGaussianMF.cs" />
+    <Compile Include="Models\Classes\ClassWithGeneralisedBellMF.cs" />
+    <Compile Include="Models\Classes\ClassWithSigmoidDifferenceMF.cs" />
+    <Compile Include="Models\Classes\ClassWithTrapezoidalMF.cs" />
+    <Compile Include="Models\Classes\ClassWithTriangularMF.cs" />
+    <Compile Include="Models\Expressions\BinaryOperation.cs" />
+    <Compile Include="Models\Expressions\Conjunction.cs" />
+    <Compile Include="Models\Expressions\Disjunction.cs" />
+    <Compile Include="Models\Expressions\Expression.cs" />
+    <Compile Include="Models\Expressions\MembershipStatement.cs" />
+    <Compile Include="Models\Expressions\Negation.cs" />
+    <Compile Include="Models\Parameter.cs" />
+    <Compile Include="Models\Range.cs" />
+    <Compile Include="Models\Rule.cs" />
+    <Compile Include="Models\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +181,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
