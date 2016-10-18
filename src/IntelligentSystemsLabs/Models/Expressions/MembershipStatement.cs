@@ -17,7 +17,7 @@ namespace IntelligentSystemsLabs.Models.Expressions
             Class = clazz;
 		}
 
-        public override double Evaluate(Dictionary<Class, double> membershipValues)
+        public override double Evaluate(IDictionary<Class, double> membershipValues)
         {
             if (!membershipValues.ContainsKey(Class))
             {

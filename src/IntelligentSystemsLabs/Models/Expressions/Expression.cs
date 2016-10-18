@@ -5,7 +5,7 @@ namespace IntelligentSystemsLabs.Models.Expressions
 {
 	public abstract class Expression
 	{
-        public abstract double Evaluate(Dictionary<Class,double> membershipValues);
+        public abstract double Evaluate(IDictionary<Class,double> membershipValues);
 	}
 }
 

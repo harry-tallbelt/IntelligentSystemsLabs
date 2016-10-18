@@ -13,7 +13,7 @@ namespace IntelligentSystemsLabs.Models.Expressions
             Argument = argument;
         }
 
-        public override double Evaluate(Dictionary<Class, double> membershipValues)
+        public override double Evaluate(IDictionary<Class, double> membershipValues)
         {
             return 1.0 - Argument.Evaluate(membershipValues);
         }
