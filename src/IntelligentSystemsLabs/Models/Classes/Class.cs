@@ -2,13 +2,16 @@
 
 namespace IntelligentSystemsLabs.Models.Classes
 {
-	public class Class
+	public abstract class Class
 	{
-		public Class ()
+        public string Name { get; private set; }
+
+        public Class(string name)
 		{
+            Name = name;
 		}
 
-        public object Name { get; internal set; }
+        public abstract double CalculateMembershipValueFor(double value);
     }
 }
 
