@@ -7,6 +7,8 @@ namespace IntelligentSystemsLabs.Models.Classes
 		public Class ()
 		{
 		}
-	}
+
+        public object Name { get; internal set; }
+    }
 }
 

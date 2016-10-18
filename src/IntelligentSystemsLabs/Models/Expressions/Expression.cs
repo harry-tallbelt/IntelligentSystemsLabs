@@ -1,12 +1,11 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using IntelligentSystemsLabs.Models.Classes;
 
 namespace IntelligentSystemsLabs.Models.Expressions
 {
-	public class Expression
+	public abstract class Expression
 	{
-		public Expression ()
-		{
-		}
+        public abstract double Evaluate(Dictionary<Class,double> membershipValues);
 	}
 }
 

@@ -2,10 +2,15 @@
 
 namespace IntelligentSystemsLabs.Models.Expressions
 {
-	public class BinaryOperation
+	public abstract class BinaryOperation : Expression
 	{
-		public BinaryOperation ()
+        public Expression LeftArgument { get; private set; }
+        public Expression RightArgument { get; private set; }
+
+        public BinaryOperation(Expression left, Expression right)
 		{
+            LeftArgument = left;
+            RightArgument = right;
 		}
 	}
 }
