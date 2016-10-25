@@ -1,8 +1,8 @@
-﻿using IntelligentSystemsLabs.Models.Classes;
-using IntelligentSystemsLabs.Models.Expressions;
+﻿using CoreLogic.Classes;
+using CoreLogic.Expressions;
 using System;
 
-namespace IntelligentSystemsLabs.Models
+namespace CoreLogic
 {
     /// <summary>
     /// Represents a rule, which is a relation

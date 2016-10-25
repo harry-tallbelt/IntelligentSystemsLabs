@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using IntelligentSystemsLabs.Models.Classes;
+using CoreLogic.Classes;
 
-namespace IntelligentSystemsLabs.Models.Expressions
+namespace CoreLogic.Expressions
 {
 	public abstract class Expression
 	{

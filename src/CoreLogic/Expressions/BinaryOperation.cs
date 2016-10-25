@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntelligentSystemsLabs.Models.Expressions
+namespace CoreLogic.Expressions
 {
 	public abstract class BinaryOperation : Expression
 	{

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntelligentSystemsLabs.Models.Classes
+namespace CoreLogic.Classes
 {
     /// <summary>
     /// Represents class with the membership function given as

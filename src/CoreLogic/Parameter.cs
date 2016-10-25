@@ -1,9 +1,9 @@
-﻿using IntelligentSystemsLabs.Models.Classes;
+﻿using CoreLogic.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IntelligentSystemsLabs.Models
+namespace CoreLogic
 {
 	public class Parameter
 	{
