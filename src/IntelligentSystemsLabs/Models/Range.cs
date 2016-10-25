@@ -2,10 +2,9 @@
 
 namespace IntelligentSystemsLabs.Models
 {
-	public class Range
+	public struct Range
 	{
-        public double LowerBoundary { get; private set; }
-        public double UpperBoundary { get; private set; }
+        public double LowerBoundary, UpperBoundary;
 
         public bool IsEmpty { get { return LowerBoundary > UpperBoundary; } }
 

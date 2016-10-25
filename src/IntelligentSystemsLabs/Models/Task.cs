@@ -8,11 +8,11 @@ namespace IntelligentSystemsLabs.Models
 	public class Task
 	{
 		public string Name { get; private set; }
-		public ISet<Parameter> InputParameters { get; private set; }
-		public ISet<Parameter> OutputParameters { get; private set; }
-		public ISet<Rule> Rules { get; private set; }
+		public IEnumerable<Parameter> InputParameters { get; private set; }
+		public IEnumerable<Parameter> OutputParameters { get; private set; }
+		public IEnumerable<Rule> Rules { get; private set; }
 
-		public Task (string name, ISet<Parameter> inputs, ISet<Parameter> outputs, ISet<Rule> rules)
+		public Task (string name, IEnumerable<Parameter> inputs, IEnumerable<Parameter> outputs, IEnumerable<Rule> rules)
         {
             if (!RulesAreValid(rules, outputs))
             {
@@ -25,7 +25,7 @@ namespace IntelligentSystemsLabs.Models
             Rules = rules;
 		}
 
-        private static bool RulesAreValid(ISet<Rule> rules, ISet<Parameter> outputs)
+        private static bool RulesAreValid(IEnumerable<Rule> rules, IEnumerable<Parameter> outputs)
         {
             var allOutputClasses = outputs
                 .Select(parameter => parameter.Classes.AsEnumerable())
@@ -41,30 +41,74 @@ namespace IntelligentSystemsLabs.Models
         /// the same elements regardless of their order
         /// and with possible dublicates.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
-        private static bool AreEqualSets<T>(IEnumerable<T> first, IEnumerable<T> second)
+        private static bool AreEqualSets<T>(IEnumerable<T> first, IEnumerable<T> second) =>
+            !first.Except(second).Union(second.Except(first)).Any();
+
+        public IEnumerable<OutputParameterSolution> Solve(IDictionary<Parameter, double> inputValues)
         {
-            return !first.Except(second).Union(second.Except(first)).Any();
+            if (InputParameters.Except(inputValues.Keys).Any())
+            {
+                throw new ArgumentException("Input values do not represent all the task's input parameters.");
+            }
+
+            var inputMembershipValues = InputParameters
+                .SelectMany(param => param.CalculateMembershipValuesFor(inputValues[param]))  // obtains a sequence of KV-pairs instead of dictionaries
+                .ToDictionary(pair => pair.Key, pair => pair.Value);    // merges all the pairs in one dictionaty; throws exception on matching keys (which should never happen)
+
+            var outputMembershipValues = Rules
+                .GroupBy(rule => rule.Class)
+                .ToDictionary(group => group.Key,
+                              group => group.Select(rule => rule.Expression.Evaluate(inputMembershipValues)).Max());  // joins the rules of the same target class via max (fuzzy disjunction)
+
+            return OutputParameters.Select(param => new OutputParameterSolution(param, outputMembershipValues));
         }
 
-        public class OneParameterSolution
+        public class OutputParameterSolution
         {
+            public Parameter Parameter { get; private set; }
             public Func<double, double> ParameterDistribution { get; private set; }
             public double GravityCenter { get; private set; }
-            
-            public OneParameterSolution(IDictionary<Class,double> membershipValues)
+
+            public OutputParameterSolution(Parameter parameter, IDictionary<Class, double> membershipValues)
             {
-                throw new NotImplementedException();
+                if (membershipValues.Keys.Except(parameter.Classes).Any())
+                {
+                    throw new ArgumentException("The given classes list does not contain all the parameter's necessary classes.");
+                }
+                
+                Parameter = parameter;
+                ParameterDistribution = BuildFuzzyDistribution(membershipValues);
+                GravityCenter = ComputeGravityCenter(ParameterDistribution, parameter.Range);
+            }
+
+            private static Func<double, double> BuildFuzzyDistribution(IDictionary<Class, double> membershipValues) =>
+                x => membershipValues
+                .Select(pair => Math.Min(pair.Key.CalculateMembershipValueFor(x), pair.Value))
+                .Max();
+
+            private static double ComputeGravityCenter(Func<double, double> f, Range range) =>
+                Integrate(x => x * f(x), range) / Integrate(f, range);
+
+            // TODO: Integration precision should probably be a class' field,
+            // as it might be useful to (in/de)crease it depending on the Parameter.
+            // On the other hand, will we actually need it?
+            private static readonly double DEFAULT_INTEGRATION_PRECISION = 0.05;
+
+            private static double Integrate(Func<double, double> f, Range range) =>
+                Integrate(f, range, DEFAULT_INTEGRATION_PRECISION);
+
+            private static double Integrate(Func<double, double> f, Range range, double precision)
+            {
+                var res = 0.0;
+
+                for (double x = range.LowerBoundary; x < range.UpperBoundary; x += precision)
+                {
+                    res += f(x) * precision;
+                }
+
+                return res;
             }
         }
-
-        public IDictionary<Parameter,OneParameterSolution> Solve(IDictionary<Parameter, double> inputValues)
-        {
-            throw new NotImplementedException();
-        }
-	}
+    }
 }
 

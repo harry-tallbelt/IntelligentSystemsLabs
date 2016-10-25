@@ -1,6 +1,7 @@
 ﻿using IntelligentSystemsLabs.Models.Classes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IntelligentSystemsLabs.Models
 {
@@ -8,7 +9,7 @@ namespace IntelligentSystemsLabs.Models
 	{
 		public string Name { get; private set; }
 		public Range Range { get; private set; }
-		public ISet<Class> Classes { get; private set; }
+		public IEnumerable<Class> Classes { get; private set; }
 
 		public Parameter(string name, Range range, ISet<Class> classes)
 		{
@@ -36,21 +37,14 @@ namespace IntelligentSystemsLabs.Models
         /// <returns>
         /// A map of the parameter's classes to their membership values.
         /// </returns>
-        public Dictionary<Class, double> CalculateMembershipValuesFor(double value)
+        public IDictionary<Class, double> CalculateMembershipValuesFor(double value)
         {
             if (!Range.Contains(value))
             {
                 throw new ArgumentException("The value is out of the parameter's range.");
             }
 
-            var res = new Dictionary<Class, double>();
-
-            foreach (var clazz in Classes)
-            {
-                res.Add(clazz, clazz.CalculateMembershipValueFor(value));
-            }
-
-            return res;
+            return Classes.ToDictionary(clazz => clazz, clazz => clazz.CalculateMembershipValueFor(value));
         }
 	}
 }
