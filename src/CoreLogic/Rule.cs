@@ -1,6 +1,7 @@
-﻿using CoreLogic.Classes;
+﻿using System;
+using System.Linq;
+using CoreLogic.Classes;
 using CoreLogic.Expressions;
-using System;
 
 namespace CoreLogic
 {
@@ -12,12 +13,18 @@ namespace CoreLogic
     /// </summary>
 	public class Rule
     {
+        public Parameter Parameter { get; private set; }
         public Class Class { get; private set; }
         public Expression Expression { get; private set; }
 
-        public Rule (Class clazz, Expression expression)
-		{
-            Class = clazz; Expression = expression;
+        public Rule (Parameter parameter, Class clazz, Expression expression)
+        {
+            if (!parameter.Classes.Contains(clazz))
+            {
+                throw new ArgumentException("The given class is not connected with the given parameter.");
+            }
+
+            Parameter = parameter; Class = clazz; Expression = expression;
 		}
 	}
 }
