@@ -1,4 +1,5 @@
 ﻿using CoreLogic.Classes;
+using CoreLogic.Expressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,33 @@ namespace CoreLogic
 
 		public Task (string name, IEnumerable<Parameter> inputs, IEnumerable<Parameter> outputs, IEnumerable<Rule> rules)
         {
-            if (!RulesAreValid(rules, outputs))
+            if (inputs.GroupBy(p => p.Name).Any(g => g.Count() > 1))
             {
-                throw new ArgumentException("Either rules do not cover all of the output parameters or link the parameters not listed as output.");
+                throw new ArgumentException("Names of some input variables are not unique.");
+            }
+            if (outputs.GroupBy(p => p.Name).Any(g => g.Count() > 1))
+            {
+                throw new ArgumentException("Names of some output variables are not unique.");
+            }
+
+            var outputClasses = outputs.SelectMany(parameter => parameter.Classes);
+            var classesWithRules = rules.Select(rule => rule.Class);
+
+            if (outputClasses.Except(classesWithRules).Any())
+            {
+                throw new ArgumentException("Rules do not fully cover the output variables.");
+            }
+            if (classesWithRules.Except(outputClasses).Any())
+            {
+                throw new ArgumentException("Rules reference a non-existing output variable's classes.");
+            }
+
+            var inputClasses = inputs.SelectMany(parameter => parameter.Classes);
+            var referencedInputClasses = rules.SelectMany(rule => rule.Expression.ReferencedClasses);
+
+            if (referencedInputClasses.Except(inputClasses).Any())
+            {
+                throw new ArgumentException("Rules reference a non-existing input variable's classes.");
             }
 
             Name = name;
@@ -24,25 +49,6 @@ namespace CoreLogic
             OutputParameters = outputs;
             Rules = rules;
 		}
-
-        private static bool RulesAreValid(IEnumerable<Rule> rules, IEnumerable<Parameter> outputs)
-        {
-            var allOutputClasses = outputs
-                .Select(parameter => parameter.Classes.AsEnumerable())
-                .Aggregate((left, right) => left.Concat(right));
-            
-            var classesWithRules = rules.Select(rule => rule.Class);
-
-            return AreEqualSets(allOutputClasses, classesWithRules);
-        }
-
-        /// <summary>
-        /// Returns true if both the sequences contain
-        /// the same elements regardless of their order
-        /// and with possible dublicates.
-        /// </summary>
-        private static bool AreEqualSets<T>(IEnumerable<T> first, IEnumerable<T> second) =>
-            !first.Except(second).Union(second.Except(first)).Any();
 
         public IEnumerable<OutputParameterSolution> Solve(IDictionary<Parameter, double> inputValues)
         {

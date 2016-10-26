@@ -8,7 +8,12 @@ namespace CoreLogic.Expressions
 	{
         public Expression Argument { get; private set; }
 
-		public Negation(Expression argument)
+        public override IEnumerable<Class> ReferencedClasses
+        {
+            get { return Argument.ReferencedClasses; }
+        }
+
+        public Negation(Expression argument)
         {
             Argument = argument;
         }

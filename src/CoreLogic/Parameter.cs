@@ -22,6 +22,11 @@ namespace CoreLogic
             {
                 throw new ArgumentException("A parameter should be divided into at least one class.");
             }
+
+            if (classes.GroupBy(c => c.Name).Any(g => g.Count() > 1))
+            {
+                throw new ArgumentException("Some of the classes' names are not unique.");
+            }
             
             Name = name; Range = range; Classes = classes;
 		}

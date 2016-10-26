@@ -12,7 +12,12 @@ namespace CoreLogic.Expressions
 	{
         public Class Class { get; private set; }
 
-		public MembershipStatement(Class clazz)
+        public override IEnumerable<Class> ReferencedClasses
+        {
+            get { return new Class[] { Class }; }
+        }
+
+        public MembershipStatement(Class clazz)
 		{
             Class = clazz;
 		}
