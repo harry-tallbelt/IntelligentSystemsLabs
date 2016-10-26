@@ -7,7 +7,7 @@ namespace JsonParser
 {
     public static class Parser
     {
-        public static CoreLogic.Task TaskFromJsonString(string json)
+        public static CoreLogic.Task TaskFromJson(string json)
         {
             var taskModel = JsonConvert.DeserializeObject<Models.Task>(json);
 
@@ -17,10 +17,10 @@ namespace JsonParser
 
             return new CoreLogic.Task(taskModel.name, inVars, outVars, rules);
         }
+        
+        public static string TaskToJson(CoreLogic.Task task) => TaskToJson(task, true);
 
-        public static string JsonStringFromTask(CoreLogic.Task task) => JsonStringFromTask(task, true);
-
-        public static string JsonStringFromTask(CoreLogic.Task task, bool indentSubobjects)
+        public static string TaskToJson(CoreLogic.Task task, bool indentSubobjects)
         {
             var taskModel = new Models.Task {
                 name = task.Name,
@@ -30,6 +30,29 @@ namespace JsonParser
             };
 
             return JsonConvert.SerializeObject(taskModel, indentSubobjects ? Formatting.Indented : Formatting.None);
+        }
+
+        public static IDictionary<CoreLogic.Parameter, double> InputsFromJson(CoreLogic.Task task, string json)
+        {
+            var parsedInput = JsonConvert.DeserializeObject<Dictionary<string, double>>(json);
+
+            if (task.InputParameters.Select(p => p.Name).Except(parsedInput.Keys).Any())
+            {
+                throw new ArgumentException("The given JSON-string does not give all the necessary varibles' values.");
+            }
+
+            return task.InputParameters
+                .Select(param => Tuple.Create(param, parsedInput[param.Name]))
+                .ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
+        }
+
+        public static string SolutionToJson(IEnumerable<CoreLogic.Task.OutputParameterSolution> results) =>
+            SolutionToJson(results, true);
+
+        public static string SolutionToJson(IEnumerable<CoreLogic.Task.OutputParameterSolution> results, bool indented)
+        {
+            var dict = results.ToDictionary(r => r.Parameter.Name, r => r.GravityCenter);
+            return JsonConvert.SerializeObject(dict, indented ? Formatting.Indented : Formatting.None);
         }
 
         private static CoreLogic.Parameter ConvertModelToParameter(Models.Parameter parameterModel)
