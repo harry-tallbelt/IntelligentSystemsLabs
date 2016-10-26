@@ -11,14 +11,14 @@ namespace CoreLogic
 		public Range Range { get; private set; }
 		public IEnumerable<Class> Classes { get; private set; }
 
-		public Parameter(string name, Range range, ISet<Class> classes)
+		public Parameter(string name, Range range, IEnumerable<Class> classes)
 		{
             if (range.IsEmpty)
             {
                 throw new ArgumentException("A parameter cannot be defined on an empty range.");
             }
 
-            if (classes.Count == 0)
+            if (!classes.Any())
             {
                 throw new ArgumentException("A parameter should be divided into at least one class.");
             }
