@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonParser", "JsonParser\Js
 		{B8ECD77D-26DD-49D6-9E50-89DE61F409C6} = {B8ECD77D-26DD-49D6-9E50-89DE61F409C6}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication", "ConsoleApplication\ConsoleApplication.csproj", "{D4745ED0-0A5F-4CD2-9840-BBB09767553F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{14620989-E9E7-446D-9B97-82AA15FE1A26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14620989-E9E7-446D-9B97-82AA15FE1A26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14620989-E9E7-446D-9B97-82AA15FE1A26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4745ED0-0A5F-4CD2-9840-BBB09767553F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4745ED0-0A5F-4CD2-9840-BBB09767553F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4745ED0-0A5F-4CD2-9840-BBB09767553F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4745ED0-0A5F-4CD2-9840-BBB09767553F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
