@@ -12,6 +12,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentSystemsLabs.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLogic", "CoreLogic\CoreLogic.csproj", "{B8ECD77D-26DD-49D6-9E50-89DE61F409C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonParser", "JsonParser\JsonParser.csproj", "{14620989-E9E7-446D-9B97-82AA15FE1A26}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B8ECD77D-26DD-49D6-9E50-89DE61F409C6} = {B8ECD77D-26DD-49D6-9E50-89DE61F409C6}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +35,10 @@ Global
 		{B8ECD77D-26DD-49D6-9E50-89DE61F409C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8ECD77D-26DD-49D6-9E50-89DE61F409C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8ECD77D-26DD-49D6-9E50-89DE61F409C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14620989-E9E7-446D-9B97-82AA15FE1A26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14620989-E9E7-446D-9B97-82AA15FE1A26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14620989-E9E7-446D-9B97-82AA15FE1A26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14620989-E9E7-446D-9B97-82AA15FE1A26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
