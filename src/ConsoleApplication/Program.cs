@@ -124,32 +124,21 @@ namespace ConsoleApplication
                     continueExecution = false;
                 }
             }
-            
+
+            string jsonSolution = null;
             if (continueExecution)
             {
-                var jsonSolution = Parser.SolutionToJson(solution);  // Have no idea why that may fail, thus do not handle it.
+                jsonSolution = Parser.SolutionToJson(solution);  // This should never fail, so do not handle any exceptions.
 
-                if (cmdArguments.OutputFileName == null)
+                if (cmdArguments.OutputFileName != null)
                 {
-                    Console.WriteLine(jsonSolution);
-                }
-                else
-                {
-                    if (File.Exists(cmdArguments.OutputFileName))
+                    try
                     {
-                        Console.Error.WriteLine($"File {cmdArguments.OutputFileName} does not exist.");
-                        printHelp = true; continueExecution = false;
+                        File.WriteAllText(cmdArguments.OutputFileName, jsonSolution);
                     }
-                    else
+                    catch (Exception e)
                     {
-                        try
-                        {
-                            File.WriteAllText(cmdArguments.OutputFileName, jsonSolution);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.Error.WriteLine($"Cannot write to file {cmdArguments.OutputFileName} with error: {e.Message}");
-                        }
+                        Console.Error.WriteLine($"Cannot write to file {cmdArguments.OutputFileName} with error: {e.Message}");
                     }
                 }
             }
@@ -159,6 +148,13 @@ namespace ConsoleApplication
                 Console.Error.WriteLine();
                 Console.Error.WriteLine("Application usage: solve -task <task-file-name> -in <input-file-name> [-out <output-file-name>]");
                 Console.Error.WriteLine("If output file is not provided, the output data is printed to stdout.");
+                Console.Error.WriteLine();
+            }
+
+            // First we print the help messange and then the solution.
+            if (continueExecution && cmdArguments.OutputFileName == null)
+            {
+                Console.WriteLine(jsonSolution);
                 Console.Error.WriteLine();
             }
         }
