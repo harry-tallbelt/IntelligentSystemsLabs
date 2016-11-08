@@ -19,7 +19,7 @@ namespace ConsoleApplication
             public List<int> UnusedArguments;
         }
 
-        private static void Main(string[] args)
+        private static int Main(string[] args)
         {
             var cmdArguments = ParseCommandLineArgumens(args);
             bool printHelp = false, continueExecution = true;
@@ -157,6 +157,8 @@ namespace ConsoleApplication
                 Console.WriteLine(jsonSolution);
                 Console.WriteLine();
             }
+
+            return continueExecution ? 0 : -1;
         }
 
         private static CommandLineArguments ParseCommandLineArgumens(string[] args)
