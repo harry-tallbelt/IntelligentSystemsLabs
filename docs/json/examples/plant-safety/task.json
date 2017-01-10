@@ -1,0 +1,351 @@
+{
+    "name": "plant_safety",
+    "in_vars": [
+        {
+            "name": "safety",
+            "from": 0,
+            "to": 100,
+            "classes": [
+                {
+                    "name": "low",
+                    "type": "trapezoidal",
+                    "params": {
+                        "a": -1,
+                        "b": 0,
+                        "c": 35,
+                        "d": 50
+                    }
+                },
+                {
+                    "name": "middle",
+                    "type": "trapezoidal",
+                    "params": {
+                        "a": 35,
+                        "b": 50,
+                        "c": 75,
+                        "d": 80
+                    }
+                },
+                {
+                    "name": "high",
+                    "type": "trapezoidal",
+                    "params": {
+                        "a": 75,
+                        "b": 80,
+                        "c": 100,
+                        "d": 101
+                    }
+                }
+            ]
+        },
+        {
+            "name": "consequences",
+            "from": 0,
+            "to": 100,
+            "classes": [
+                {
+                    "name": "C1",
+                    "type": "trapezoidal",
+                    "params": {
+                        "a": -1,
+                        "b": 0,
+                        "c": 10,
+                        "d": 20
+                    }
+                },
+                {
+                    "name": "C2",
+                    "type": "trapezoidal",
+                    "params": {
+                        "a": 10,
+                        "b": 20,
+                        "c": 40,
+                        "d": 50
+                    }
+                },
+                {
+                    "name": "C3",
+                    "type": "trapezoidal",
+                    "params": {
+                        "a": 40,
+                        "b": 50,
+                        "c": 60,
+                        "d": 70
+                    }
+                },
+                {
+                    "name": "C4",
+                    "type": "trapezoidal",
+                    "params": {
+                        "a": 60,
+                        "b": 70,
+                        "c": 80,
+                        "d": 90
+                    }
+                },
+                {
+                    "name": "C5",
+                    "type": "trapezoidal",
+                    "params": {
+                        "a": 80,
+                        "b": 90,
+                        "c": 100,
+                        "d": 101
+                    }
+                }
+            ]
+        }
+    ],
+    "out_vars": [
+        {
+            "name": "risk",
+            "from": 0,
+            "to": 1,
+            "classes": [
+                {
+                    "name": "VL",
+                    "type": "triangular",
+                    "params": {
+                        "a": -1,
+                        "b": 0,
+                        "c": 0.25
+                    }
+                },
+                {
+                    "name": "L",
+                    "type": "triangular",
+                    "params": {
+                        "a": 0,
+                        "b": 0.25,
+                        "c": 0.5
+                    }
+                },
+                {
+                    "name": "M",
+                    "type": "triangular",
+                    "params": {
+                        "a": 0.25,
+                        "b": 0.5,
+                        "c": 0.75
+                    }
+                },
+                {
+                    "name": "H",
+                    "type": "triangular",
+                    "params": {
+                        "a": 0.5,
+                        "b": 0.75,
+                        "c": 1
+                    }
+                },
+                {
+                    "name": "VH",
+                    "type": "triangular",
+                    "params": {
+                        "a": 0.75,
+                        "b": 1,
+                        "c": 2
+                    }
+                }
+            ]
+        }
+    ],
+    "rules": [
+        {
+            "var_name" : "risk",
+            "class_name" : "VH",
+            "expr" : {
+                "type" : "and",
+                "left" : {
+                    "type" : "state",
+                    "var_name" : "safety",
+                    "class_name" : "low"
+                },
+                "right" : {
+                    "type" : "state",
+                    "var_name" : "consequences",
+                    "class_name" : "C5"
+                }
+            },
+        },
+        {
+            "var_name" : "risk",
+            "class_name" : "H",
+            "expr" : {
+                "type" : "and",
+                "left" : {
+                    "type" : "state",
+                    "var_name" : "safety",
+                    "class_name" : "middle"
+                },
+                "right" : {
+                    "type" : "state",
+                    "var_name" : "consequences",
+                    "class_name" : "C5"
+                }
+            },
+        },
+        {
+            "var_name" : "risk",
+            "class_name" : "M",
+            "expr" : {
+                "type" : "and",
+                "left" : {
+                    "type" : "state",
+                    "var_name" : "safety",
+                    "class_name" : "high"
+                },
+                "right" : {
+                    "type" : "state",
+                    "var_name" : "consequences",
+                    "class_name" : "C5"
+                }
+            },
+        },
+        {
+            "var_name" : "risk",
+            "class_name" : "H",
+            "expr" : {
+                "type" : "and",
+                "left" : {
+                    "type" : "state",
+                    "var_name" : "safety",
+                    "class_name" : "low"
+                },
+                "right" : {
+                    "type" : "state",
+                    "var_name" : "consequences",
+                    "class_name" : "C4"
+                }
+            },
+        },
+        {
+            "var_name" : "risk",
+            "class_name" : "M",
+            "expr" : {
+                "type" : "and",
+                "left" : {
+                    "type" : "state",
+                    "var_name" : "safety",
+                    "class_name" : "middle"
+                },
+                "right" : {
+                    "type" : "state",
+                    "var_name" : "consequences",
+                    "class_name" : "C4"
+                }
+            },
+        },
+        {
+            "var_name" : "risk",
+            "class_name" : "L",
+            "expr" : {
+                "type" : "and",
+                "left" : {
+                    "type" : "state",
+                    "var_name" : "safety",
+                    "class_name" : "high"
+                },
+                "right" : {
+                    "type" : "state",
+                    "var_name" : "consequences",
+                    "class_name" : "C4"
+                }
+            },
+        },
+        {
+            "var_name" : "risk",
+            "class_name" : "M",
+            "expr" : {
+                "type" : "and",
+                "left" : {
+                    "type" : "state",
+                    "var_name" : "safety",
+                    "class_name" : "low"
+                },
+                "right" : {
+                    "type" : "state",
+                    "var_name" : "consequences",
+                    "class_name" : "C3"
+                }
+            },
+        },
+        {
+            "var_name" : "risk",
+            "class_name" : "L",
+            "expr" : {
+                "type" : "and",
+                "left" : {
+                    "type" : "state",
+                    "var_name" : "safety",
+                    "class_name" : "middle"
+                },
+                "right" : {
+                    "type" : "state",
+                    "var_name" : "consequences",
+                    "class_name" : "C3"
+                }
+            },
+        },
+        {
+            "var_name" : "risk",
+            "class_name" : "VL",
+            "expr" : {
+                "type" : "and",
+                "left" : {
+                    "type" : "state",
+                    "var_name" : "safety",
+                    "class_name" : "high"
+                },
+                "right" : {
+                    "type" : "state",
+                    "var_name" : "consequences",
+                    "class_name" : "C3"
+                }
+            },
+        },
+        {
+            "var_name" : "risk",
+            "class_name" : "L",
+            "expr" : {
+                "type" : "and",
+                "left" : {
+                    "type" : "state",
+                    "var_name" : "safety",
+                    "class_name" : "middle"
+                },
+                "right" : {
+                    "type" : "state",
+                    "var_name" : "consequences",
+                    "class_name" : "C2"
+                }
+            },
+        },
+        {
+            "var_name" : "risk",
+            "class_name" : "VL",
+            "expr" : {
+                "type" : "and",
+                "left" : {
+                    "type" : "state",
+                    "var_name" : "safety",
+                    "class_name" : "high"
+                },
+                "right" : {
+                    "type" : "state",
+                    "var_name" : "consequences",
+                    "class_name" : "C2"
+                }
+            },
+        },
+        {
+            "var_name" : "risk",
+            "class_name" : "VL",
+            "expr" : {
+                "type" : "state",
+                "var_name" : "consequences",
+                "class_name" : "C1"
+            },
+        },
+    ]
+}
