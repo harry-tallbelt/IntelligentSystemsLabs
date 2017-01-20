@@ -1,7 +1,5 @@
 # Fuzzy-logic inference
 
-_The repo is originally a project for a university course, hence the name IntelligentSystemsLabs._
-
 This fork was created as an accident in the first place,
 so I didn't really need it and it wasn't properly used.
 [The original repo](https://github.com/Jeanosis/IntelligentSystemsLabs)
