@@ -11,9 +11,9 @@ namespace JsonParser
         {
             var taskModel = JsonConvert.DeserializeObject<Models.Task>(json);
 
-            var inVars = taskModel.in_vars.ConvertAll(ConvertModelToParameter);
-            var outVars = taskModel.out_vars.ConvertAll(ConvertModelToParameter);
-            var rules = taskModel.rules.ConvertAll(rule => ConvertModelToRule(rule, inVars, outVars));
+            var inVars = taskModel.in_vars.Select(ConvertModelToParameter).ToList();
+            var outVars = taskModel.out_vars.Select(ConvertModelToParameter).ToList();
+            var rules = taskModel.rules.Select(rule => ConvertModelToRule(rule, inVars, outVars)).ToList();
 
             return new CoreLogic.Task(taskModel.name, inVars, outVars, rules);
         }
@@ -58,7 +58,7 @@ namespace JsonParser
         private static CoreLogic.Parameter ConvertModelToParameter(Models.Parameter parameterModel)
         {
             var range = new CoreLogic.Range(parameterModel.from, parameterModel.to);
-            var classes = parameterModel.classes.ConvertAll(ConvertModelToClass);
+            var classes = parameterModel.classes.Select(ConvertModelToClass).ToList();
 
             return new CoreLogic.Parameter(parameterModel.name, range, classes);
         }
