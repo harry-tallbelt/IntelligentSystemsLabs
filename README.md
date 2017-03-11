@@ -11,6 +11,7 @@ so I felt like keeping it here for further experiments.
 
 The project is powered by .Net Core, so, if you haven't already,
 you'll have to install it. To build the project do the following:
+
 1. `cd src`
 2. `dotnet restore`
 3. `cd ConsoleApplication`
